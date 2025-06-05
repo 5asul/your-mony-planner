@@ -14,6 +14,7 @@ interface ExpenseData {
   health: number;
   savings: number;
   total: number;
+  [key: string]: number;
 }
 
 export const useExpenseData = () => {
