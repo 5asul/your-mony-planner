@@ -34,8 +34,8 @@ const BalanceAnalysis: React.FC<BalanceAnalysisProps> = ({ income, expenses }) =
   ].filter(item => item.value > 0);
 
   const comparisonData = [
-    { name: 'الدخل', value: income.total, color: '#059669' },
-    { name: 'المصروفات', value: expenses.total, color: '#DC2626' }
+    { name: 'الدخل', value: income.total },
+    { name: 'المصروفات', value: expenses.total }
   ];
 
   return (
@@ -131,7 +131,11 @@ const BalanceAnalysis: React.FC<BalanceAnalysisProps> = ({ income, expenses }) =
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip formatter={(value: number) => [`${value.toLocaleString('ar-SA')} ريال`, '']} />
-                <Bar dataKey="value" fill={(data) => data.color} />
+                <Bar dataKey="value">
+                  {comparisonData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={index === 0 ? '#059669' : '#DC2626'} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
