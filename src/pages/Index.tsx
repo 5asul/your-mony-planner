@@ -27,7 +27,17 @@ const Index = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="relative mb-8">
+            <img 
+              src="https://images.unsplash.com/photo-1466442929976-97f336a657be?w=400&h=300&fit=crop&crop=center" 
+              alt="Eid Mubarak" 
+              className="w-64 h-48 object-cover rounded-xl shadow-lg mx-auto"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-xl flex items-end justify-center">
+              <h2 className="text-white text-2xl font-bold mb-4 text-center">عيد مبارك</h2>
+            </div>
+          </div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-xl text-gray-600">جاري التحميل...</p>
         </div>
       </div>
