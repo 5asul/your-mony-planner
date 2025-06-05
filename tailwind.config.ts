@@ -56,13 +56,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Financial theme colors
+				// Updated financial theme colors - no more yellow
 				success: {
 					DEFAULT: '#10B981',
 					foreground: '#FFFFFF'
 				},
 				warning: {
-					DEFAULT: '#F59E0B',
+					DEFAULT: '#FF6B35', // Changed from yellow to vibrant orange
 					foreground: '#FFFFFF'
 				},
 				danger: {
@@ -73,7 +73,12 @@ export default {
 					income: '#059669',
 					expense: '#DC2626',
 					savings: '#7C3AED',
-					neutral: '#6B7280'
+					neutral: '#6B7280',
+					// Added new gradient colors
+					amber: '#FF6B35', // Vibrant orange instead of yellow
+					coral: '#FF5722',
+					mint: '#00BCD4',
+					lavender: '#9C27B0'
 				}
 			},
 			borderRadius: {

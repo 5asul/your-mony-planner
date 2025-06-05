@@ -80,4 +80,17 @@
   .input-financial {
     @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-right;
   }
+
+  /* Updated warning styles - no more yellow */
+  .warning-bg {
+    @apply bg-orange-50 border-orange-200;
+  }
+  
+  .warning-text {
+    @apply text-orange-600;
+  }
+  
+  .warning-border {
+    @apply border-orange-500;
+  }
 }
