@@ -11,6 +11,7 @@ interface IncomeData {
   investments: number;
   other: number;
   total: number;
+  [key: string]: number;
 }
 
 export const useIncomeData = () => {
@@ -37,7 +38,7 @@ export const useIncomeData = () => {
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (data) {
         setIncomeData({
@@ -50,14 +51,12 @@ export const useIncomeData = () => {
         });
       }
     } catch (error: any) {
-      if (error.code !== 'PGRST116') { // Ignore "no rows returned" error
-        console.error('Error loading income data:', error);
-        toast({
-          title: "خطأ",
-          description: "فشل في تحميل بيانات الدخل",
-          variant: "destructive",
-        });
-      }
+      console.error('Error loading income data:', error);
+      toast({
+        title: "خطأ",
+        description: "فشل في تحميل بيانات الدخل",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
