@@ -13,61 +13,77 @@ interface ExpenseData {
   entertainment: number;
   health: number;
   savings: number;
+  total: number;
 }
 
 interface ExpenseEntryProps {
-  onExpenseChange: (expenses: ExpenseData & { total: number }) => void;
+  expenseData: ExpenseData;
+  onExpenseChange: (expenses: ExpenseData) => void;
+  loading?: boolean;
 }
 
-const ExpenseEntry: React.FC<ExpenseEntryProps> = ({ onExpenseChange }) => {
-  const [expenses, setExpenses] = useState<ExpenseData>({
-    housing: 0,
-    utilities: 0,
-    food: 0,
-    transportation: 0,
-    education: 0,
-    entertainment: 0,
-    health: 0,
-    savings: 0
-  });
-
-  const total = Object.values(expenses).reduce((sum, value) => sum + value, 0);
+const ExpenseEntry: React.FC<ExpenseEntryProps> = ({ expenseData, onExpenseChange, loading = false }) => {
+  const [expenses, setExpenses] = useState<ExpenseData>(expenseData);
 
   useEffect(() => {
-    onExpenseChange({ ...expenses, total });
-  }, [expenses, total, onExpenseChange]);
+    setExpenses(expenseData);
+  }, [expenseData]);
 
-  const handleInputChange = (field: keyof ExpenseData, value: string) => {
+  useEffect(() => {
+    const newTotal = expenses.housing + expenses.utilities + expenses.food + expenses.transportation + 
+                    expenses.education + expenses.entertainment + expenses.health + expenses.savings;
+    const updatedExpenses = { ...expenses, total: newTotal };
+    setExpenses(updatedExpenses);
+    onExpenseChange(updatedExpenses);
+  }, [expenses.housing, expenses.utilities, expenses.food, expenses.transportation, 
+      expenses.education, expenses.entertainment, expenses.health, expenses.savings]);
+
+  const handleInputChange = (field: keyof Omit<ExpenseData, 'total'>, value: string) => {
     const numValue = parseFloat(value) || 0;
     setExpenses(prev => ({ ...prev, [field]: numValue }));
   };
 
   const expenseFields = [
-    { key: 'housing', label: 'السكن / قسط المنزل', icon: '🏠', color: 'border-red-200' },
-    { key: 'utilities', label: 'الفواتير (كهرباء، ماء، إنترنت)', icon: '⚡', color: 'border-yellow-200' },
-    { key: 'food', label: 'الطعام والبقالة', icon: '🛒', color: 'border-green-200' },
-    { key: 'transportation', label: 'المواصلات', icon: '🚗', color: 'border-blue-200' },
-    { key: 'education', label: 'التعليم', icon: '📚', color: 'border-purple-200' },
-    { key: 'entertainment', label: 'الترفيه', icon: '🎮', color: 'border-pink-200' },
-    { key: 'health', label: 'الصحة', icon: '🏥', color: 'border-teal-200' },
-    { key: 'savings', label: 'الادخار والاستثمار', icon: '💎', color: 'border-indigo-200' }
+    { key: 'housing', label: 'السكن / قسط المنزل', icon: '🏠', color: 'border-red-200 focus:border-red-500' },
+    { key: 'utilities', label: 'الفواتير (كهرباء، ماء، إنترنت)', icon: '⚡', color: 'border-orange-200 focus:border-orange-500' },
+    { key: 'food', label: 'الطعام والبقالة', icon: '🛒', color: 'border-emerald-200 focus:border-emerald-500' },
+    { key: 'transportation', label: 'المواصلات', icon: '🚗', color: 'border-blue-200 focus:border-blue-500' },
+    { key: 'education', label: 'التعليم', icon: '📚', color: 'border-purple-200 focus:border-purple-500' },
+    { key: 'entertainment', label: 'الترفيه', icon: '🎮', color: 'border-pink-200 focus:border-pink-500' },
+    { key: 'health', label: 'الصحة', icon: '🏥', color: 'border-teal-200 focus:border-teal-500' },
+    { key: 'savings', label: 'الادخار والاستثمار', icon: '💎', color: 'border-indigo-200 focus:border-indigo-500' }
   ];
 
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded mb-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="h-20 bg-gray-200 rounded"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <Card className="card-financial">
+    <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
+      <Card className="bg-white/90 backdrop-blur-sm shadow-xl border-0">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-financial-expense flex items-center gap-3">
+          <CardTitle className="text-xl md:text-2xl font-bold text-red-600 flex items-center gap-3">
             <span>💳</span>
             إدخال المصروفات الشهرية
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {expenseFields.map((field) => (
               <div key={field.key} className="space-y-2">
-                <Label className="text-lg font-semibold flex items-center gap-2">
-                  <span>{field.icon}</span>
+                <Label className="text-base md:text-lg font-semibold flex items-center gap-2">
+                  <span className="text-xl">{field.icon}</span>
                   {field.label}
                 </Label>
                 <div className="relative">
@@ -75,22 +91,22 @@ const ExpenseEntry: React.FC<ExpenseEntryProps> = ({ onExpenseChange }) => {
                     type="number"
                     min="0"
                     step="0.01"
-                    value={expenses[field.key as keyof ExpenseData] || ''}
-                    onChange={(e) => handleInputChange(field.key as keyof ExpenseData, e.target.value)}
-                    className={`input-financial text-lg border-2 ${field.color}`}
+                    value={expenses[field.key as keyof Omit<ExpenseData, 'total'>] || ''}
+                    onChange={(e) => handleInputChange(field.key as keyof Omit<ExpenseData, 'total'>, e.target.value)}
+                    className={`h-12 md:h-14 text-base md:text-lg pr-12 border-2 transition-colors ${field.color}`}
                     placeholder="0.00"
                   />
-                  <span className="absolute left-3 top-3 text-gray-500">ريال</span>
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm md:text-base">ريال</span>
                 </div>
               </div>
             ))}
           </div>
           
-          <div className="mt-8 p-6 bg-gradient-to-r from-financial-expense/10 to-financial-expense/5 rounded-xl border-2 border-financial-expense/20">
+          <div className="mt-8 p-4 md:p-6 bg-gradient-to-r from-red-50 to-pink-50 rounded-xl border-2 border-red-200">
             <div className="text-center">
               <p className="text-lg font-semibold text-gray-700 mb-2">إجمالي المصروفات الشهرية</p>
-              <p className="text-4xl font-bold text-financial-expense arabic-numbers">
-                {total.toLocaleString('ar-SA')} ريال
+              <p className="text-3xl md:text-4xl font-bold text-red-600 arabic-numbers">
+                {expenses.total.toLocaleString('ar-SA')} ريال
               </p>
             </div>
           </div>

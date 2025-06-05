@@ -9,7 +9,114 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      expense_entries: {
+        Row: {
+          created_at: string
+          education: number | null
+          entertainment: number | null
+          food: number | null
+          health: number | null
+          housing: number | null
+          id: string
+          savings: number | null
+          total: number | null
+          transportation: number | null
+          updated_at: string
+          user_id: string
+          utilities: number | null
+        }
+        Insert: {
+          created_at?: string
+          education?: number | null
+          entertainment?: number | null
+          food?: number | null
+          health?: number | null
+          housing?: number | null
+          id?: string
+          savings?: number | null
+          total?: number | null
+          transportation?: number | null
+          updated_at?: string
+          user_id: string
+          utilities?: number | null
+        }
+        Update: {
+          created_at?: string
+          education?: number | null
+          entertainment?: number | null
+          food?: number | null
+          health?: number | null
+          housing?: number | null
+          id?: string
+          savings?: number | null
+          total?: number | null
+          transportation?: number | null
+          updated_at?: string
+          user_id?: string
+          utilities?: number | null
+        }
+        Relationships: []
+      }
+      income_entries: {
+        Row: {
+          basic_salary: number | null
+          created_at: string
+          freelance: number | null
+          id: string
+          investments: number | null
+          other: number | null
+          rent: number | null
+          total: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          basic_salary?: number | null
+          created_at?: string
+          freelance?: number | null
+          id?: string
+          investments?: number | null
+          other?: number | null
+          rent?: number | null
+          total?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          basic_salary?: number | null
+          created_at?: string
+          freelance?: number | null
+          id?: string
+          investments?: number | null
+          other?: number | null
+          rent?: number | null
+          total?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
