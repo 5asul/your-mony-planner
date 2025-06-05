@@ -94,7 +94,7 @@ const ExpenseEntry: React.FC<ExpenseEntryProps> = ({ expenseData, onExpenseChang
                     step="0.01"
                     value={expenses[field.key as keyof Omit<ExpenseData, 'total'>] || ''}
                     onChange={(e) => handleInputChange(field.key as keyof Omit<ExpenseData, 'total'>, e.target.value)}
-                    className={`h-12 md:h-14 text-base md:text-lg pr-12 border-2 transition-colors ${field.color}`}
+                    className={`h-12 md:h-14 text-base md:text-lg pr-12 border-2 transition-colors `}
                     placeholder="0.00"
                   />
                   <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm md:text-base">ريال</span>
