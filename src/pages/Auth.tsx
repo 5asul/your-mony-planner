@@ -113,7 +113,7 @@ const Auth = () => {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
-                  className="h-12 text-right border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-200 transition-colors"
+                  className="h-12 text-right border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus-visible:ring-blue-500/20 transition-colors !ring-blue-500/20"
                   placeholder="أدخل اسمك الكامل"
                 />
               </div>
@@ -127,7 +127,7 @@ const Auth = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-12 text-right border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-200 transition-colors"
+                className="h-12 text-right border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus-visible:ring-blue-500/20 transition-colors !ring-blue-500/20"
                 placeholder="أدخل بريدك الإلكتروني"
               />
             </div>
@@ -141,7 +141,7 @@ const Auth = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="h-12 text-right border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-200 transition-colors"
+                className="h-12 text-right border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus-visible:ring-blue-500/20 transition-colors !ring-blue-500/20"
                 placeholder="أدخل كلمة المرور"
               />
             </div>
