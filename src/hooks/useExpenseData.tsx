@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -32,6 +32,7 @@ export const useExpenseData = () => {
     total: 0
   });
   const [loading, setLoading] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
 
   const loadExpenseData = async () => {
     if (!user) return;
@@ -44,10 +45,10 @@ export const useExpenseData = () => {
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (data) {
-        setExpenseData({
+        const loadedData = {
           housing: Number(data.housing) || 0,
           utilities: Number(data.utilities) || 0,
           food: Number(data.food) || 0,
@@ -57,10 +58,12 @@ export const useExpenseData = () => {
           health: Number(data.health) || 0,
           savings: Number(data.savings) || 0,
           total: Number(data.total) || 0
-        });
+        };
+        setExpenseData(loadedData);
+        setHasChanges(false);
       }
     } catch (error: any) {
-      if (error.code !== 'PGRST116') { // Ignore "no rows returned" error
+      if (error.code !== 'PGRST116') {
         console.error('Error loading expense data:', error);
         toast({
           title: "خطأ",
@@ -73,7 +76,7 @@ export const useExpenseData = () => {
     }
   };
 
-  const saveExpenseData = async (data: ExpenseData) => {
+  const saveExpenseData = async (data: ExpenseData, showToast: boolean = true) => {
     if (!user) return;
 
     try {
@@ -95,10 +98,14 @@ export const useExpenseData = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "تم الحفظ",
-        description: "تم حفظ بيانات المصروفات بنجاح",
-      });
+      setHasChanges(false);
+      
+      if (showToast) {
+        toast({
+          title: "تم الحفظ",
+          description: "تم حفظ بيانات المصروفات بنجاح",
+        });
+      }
     } catch (error: any) {
       console.error('Error saving expense data:', error);
       toast({
@@ -109,9 +116,30 @@ export const useExpenseData = () => {
     }
   };
 
+  // Debounced save function
+  const debouncedSave = useCallback(
+    (() => {
+      let timeoutId: NodeJS.Timeout;
+      return (data: ExpenseData) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          saveExpenseData(data, false); // Don't show toast for auto-save
+        }, 2000); // Save after 2 seconds of inactivity
+      };
+    })(),
+    [user]
+  );
+
   const updateExpenseData = (newData: ExpenseData) => {
     setExpenseData(newData);
-    saveExpenseData(newData);
+    setHasChanges(true);
+    debouncedSave(newData);
+  };
+
+  const saveManually = () => {
+    if (hasChanges) {
+      saveExpenseData(expenseData, true);
+    }
   };
 
   useEffect(() => {
@@ -123,6 +151,8 @@ export const useExpenseData = () => {
   return {
     expenseData,
     updateExpenseData,
-    loading
+    saveManually,
+    loading,
+    hasChanges
   };
 };

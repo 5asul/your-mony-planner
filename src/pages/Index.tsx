@@ -12,8 +12,8 @@ import FinancialPlanning from '@/components/FinancialPlanning';
 const Index = () => {
   const { user, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState('income');
-  const { incomeData, updateIncomeData, loading: incomeLoading } = useIncomeData();
-  const { expenseData, updateExpenseData, loading: expenseLoading } = useExpenseData();
+  const { incomeData, updateIncomeData, saveManually: saveIncome, loading: incomeLoading, hasChanges: incomeHasChanges } = useIncomeData();
+  const { expenseData, updateExpenseData, saveManually: saveExpense, loading: expenseLoading, hasChanges: expenseHasChanges } = useExpenseData();
 
   // Redirect to auth if not logged in
   useEffect(() => {
@@ -54,15 +54,39 @@ const Index = () => {
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'income':
-        return <IncomeEntry incomeData={incomeData} onIncomeChange={updateIncomeData} loading={incomeLoading} />;
+        return (
+          <IncomeEntry 
+            incomeData={incomeData} 
+            onIncomeChange={updateIncomeData} 
+            onSave={saveIncome}
+            hasChanges={incomeHasChanges}
+            loading={incomeLoading} 
+          />
+        );
       case 'expenses':
-        return <ExpenseEntry expenseData={expenseData} onExpenseChange={updateExpenseData} loading={expenseLoading} />;
+        return (
+          <ExpenseEntry 
+            expenseData={expenseData} 
+            onExpenseChange={updateExpenseData} 
+            onSave={saveExpense}
+            hasChanges={expenseHasChanges}
+            loading={expenseLoading} 
+          />
+        );
       case 'analysis':
         return <BalanceAnalysis income={incomeData} expenses={expenseData} />;
       case 'planning':
         return <FinancialPlanning balance={balance} />;
       default:
-        return <IncomeEntry incomeData={incomeData} onIncomeChange={updateIncomeData} loading={incomeLoading} />;
+        return (
+          <IncomeEntry 
+            incomeData={incomeData} 
+            onIncomeChange={updateIncomeData} 
+            onSave={saveIncome}
+            hasChanges={incomeHasChanges}
+            loading={incomeLoading} 
+          />
+        );
     }
   };
 
