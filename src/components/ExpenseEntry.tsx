@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
 interface ExpenseData {
   housing: number;
@@ -20,10 +21,18 @@ interface ExpenseData {
 interface ExpenseEntryProps {
   expenseData: ExpenseData;
   onExpenseChange: (expenses: ExpenseData) => void;
+  onSave: () => void;
+  hasChanges: boolean;
   loading?: boolean;
 }
 
-const ExpenseEntry: React.FC<ExpenseEntryProps> = ({ expenseData, onExpenseChange, loading = false }) => {
+const ExpenseEntry: React.FC<ExpenseEntryProps> = ({ 
+  expenseData, 
+  onExpenseChange, 
+  onSave, 
+  hasChanges, 
+  loading = false 
+}) => {
   const [expenses, setExpenses] = useState<ExpenseData>(expenseData);
 
   useEffect(() => {
@@ -74,10 +83,20 @@ const ExpenseEntry: React.FC<ExpenseEntryProps> = ({ expenseData, onExpenseChang
     <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
       <Card className="bg-white/90 backdrop-blur-sm shadow-xl border-0">
         <CardHeader>
-          <CardTitle className="text-xl md:text-2xl font-bold text-red-600 flex items-center gap-3">
-            <span>💳</span>
-            إدخال المصروفات الشهرية
-          </CardTitle>
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-xl md:text-2xl font-bold text-red-600 flex items-center gap-3">
+              <span>💳</span>
+              إدخال المصروفات الشهرية
+            </CardTitle>
+            {hasChanges && (
+              <Button 
+                onClick={onSave}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                حفظ يدوي
+              </Button>
+            )}
+          </div>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
