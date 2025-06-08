@@ -151,7 +151,7 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
             const progress = goal.currentAmount / goal.targetAmount * 100;
             const remaining = goal.targetAmount - goal.currentAmount;
             const monthsToGoal = calculateMonthsToGoal(goal);
-            return <Card key={goal.id} className="p-6 border-2 border-gray-100 hover:border-primary/30 transition-colors">
+            return <Card key={goal.id} className="p-6 border-2 border-gray-100 hover:border-primary/30 transition-colors bg-sky-100">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{categoryIcons[goal.category as keyof typeof categoryIcons] || '🎯'}</span>
