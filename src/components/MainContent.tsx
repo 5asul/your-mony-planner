@@ -89,7 +89,7 @@ const MainContent: React.FC<MainContentProps> = ({
   };
 
   return (
-    <main className="animate-fade-in pb-24 pt-6 relative overflow-hidden">
+    <main className="animate-fade-in pb-20 sm:pb-24 pt-4 sm:pt-6 relative overflow-hidden min-h-screen">
       {/* Background decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 right-10 w-32 h-32 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
@@ -97,7 +97,7 @@ const MainContent: React.FC<MainContentProps> = ({
       </div>
       
       {/* Content container with mobile-optimized padding and max-width */}
-      <div className="relative z-10 px-2 sm:px-4 md:px-6 lg:px-8">
+      <div className="relative z-10 px-1 sm:px-2 md:px-4 lg:px-6 xl:px-8">
         <div className="max-w-7xl mx-auto">
           {renderActiveTab()}
         </div>
