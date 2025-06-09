@@ -24,20 +24,27 @@ const Index = () => {
   // Show loading while checking authentication
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-8">
           <div className="relative mb-8">
-            <img 
-              src="https://images.unsplash.com/photo-1466442929976-97f336a657be?w=400&h=300&fit=crop&crop=center" 
-              alt="Eid Mubarak" 
-              className="w-64 h-48 object-cover rounded-xl shadow-lg mx-auto"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-xl flex items-end justify-center">
-              <h2 className="text-white text-2xl font-bold mb-4 text-center">عيد مبارك</h2>
+            <div className="w-32 h-32 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-2xl">
+              <div className="text-4xl text-white font-bold">💰</div>
             </div>
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/30 to-indigo-500/30 animate-pulse"></div>
           </div>
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-xl text-gray-600">جاري التحميل...</p>
+          
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold text-blue-800 mb-2">مرحباً بك</h1>
+            <p className="text-xl text-blue-600 font-semibold">تطبيق إدارة الميزانية الشخصية</p>
+          </div>
+          
+          <div className="flex justify-center items-center space-x-2 mb-4">
+            <div className="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
+            <div className="w-3 h-3 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="w-3 h-3 bg-blue-300 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+          </div>
+          
+          <p className="text-lg text-blue-700">جاري التحميل...</p>
         </div>
       </div>
     );
