@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-
 interface Goal {
   id: string;
   title: string;
@@ -15,11 +13,9 @@ interface Goal {
   deadline: string;
   category: string;
 }
-
 interface FinancialPlanningProps {
   balance: number;
 }
-
 const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
   balance
 }) => {
@@ -38,18 +34,15 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
     deadline: '2025-06-30',
     category: 'purchase'
   }]);
-  
   const [newGoal, setNewGoal] = useState({
     title: '',
     targetAmount: '',
     deadline: '',
     category: 'savings'
   });
-  
   const [showAddForm, setShowAddForm] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [goalToDelete, setGoalToDelete] = useState<string>('');
-
   const addGoal = () => {
     if (newGoal.title && newGoal.targetAmount && newGoal.deadline) {
       const goal: Goal = {
@@ -70,31 +63,26 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
       setShowAddForm(false);
     }
   };
-
   const updateGoalProgress = (goalId: string, amount: number) => {
     setGoals(goals.map(goal => goal.id === goalId ? {
       ...goal,
       currentAmount: Math.max(0, goal.currentAmount + amount)
     } : goal));
   };
-
   const confirmDeleteGoal = (goalId: string) => {
     setGoalToDelete(goalId);
     setDeleteDialogOpen(true);
   };
-
   const deleteGoal = () => {
     setGoals(goals.filter(goal => goal.id !== goalToDelete));
     setDeleteDialogOpen(false);
     setGoalToDelete('');
   };
-
   const calculateMonthsToGoal = (goal: Goal) => {
     const remaining = goal.targetAmount - goal.currentAmount;
     if (balance <= 0) return '∞';
     return Math.ceil(remaining / balance);
   };
-
   const categoryIcons = {
     emergency: '🚨',
     savings: '💰',
@@ -103,11 +91,8 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
     education: '📚',
     health: '🏥'
   };
-
   const goalToDeleteData = goals.find(goal => goal.id === goalToDelete);
-
-  return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+  return <div className="max-w-6xl mx-auto p-6 space-y-6">
       <Card className="card-financial bg-slate-50">
         <CardHeader>
           <CardTitle className="text-2xl font-bold flex items-center gap-3">
@@ -131,44 +116,35 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
             </Button>
           </div>
 
-          {showAddForm && (
-            <Card className="mb-6 p-4 bg-gray-50 border-2 border-dashed border-gray-300">
+          {showAddForm && <Card className="mb-6 p-4 bg-gray-50 border-2 border-dashed border-gray-300">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <Label className="font-semibold">عنوان الهدف</Label>
-                  <Input 
-                    value={newGoal.title} 
-                    onChange={e => setNewGoal({...newGoal, title: e.target.value})} 
-                    placeholder="مثال: شراء منزل" 
-                    className="input-financial" 
-                  />
+                  <Input value={newGoal.title} onChange={e => setNewGoal({
+                ...newGoal,
+                title: e.target.value
+              })} placeholder="مثال: شراء منزل" className="input-financial" />
                 </div>
                 <div>
                   <Label className="font-semibold">المبلغ المطلوب (ريال)</Label>
-                  <Input 
-                    type="number" 
-                    value={newGoal.targetAmount} 
-                    onChange={e => setNewGoal({...newGoal, targetAmount: e.target.value})} 
-                    placeholder="50000" 
-                    className="input-financial" 
-                  />
+                  <Input type="number" value={newGoal.targetAmount} onChange={e => setNewGoal({
+                ...newGoal,
+                targetAmount: e.target.value
+              })} placeholder="50000" className="input-financial" />
                 </div>
                 <div>
                   <Label className="font-semibold">التاريخ المستهدف</Label>
-                  <Input 
-                    type="date" 
-                    value={newGoal.deadline} 
-                    onChange={e => setNewGoal({...newGoal, deadline: e.target.value})} 
-                    className="input-financial" 
-                  />
+                  <Input type="date" value={newGoal.deadline} onChange={e => setNewGoal({
+                ...newGoal,
+                deadline: e.target.value
+              })} className="input-financial" />
                 </div>
                 <div>
                   <Label className="font-semibold">فئة الهدف</Label>
-                  <select 
-                    value={newGoal.category} 
-                    onChange={e => setNewGoal({...newGoal, category: e.target.value})} 
-                    className="input-financial"
-                  >
+                  <select value={newGoal.category} onChange={e => setNewGoal({
+                ...newGoal,
+                category: e.target.value
+              })} className="input-financial">
                     <option value="savings">ادخار عام</option>
                     <option value="emergency">صندوق طوارئ</option>
                     <option value="purchase">شراء</option>
@@ -181,17 +157,14 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
               <Button onClick={addGoal} className="mt-4 btn-financial bg-blue-600 text-white hover:bg-blue-700">
                 إضافة الهدف
               </Button>
-            </Card>
-          )}
+            </Card>}
 
           <div className="grid lg:grid-cols-2 gap-6">
             {goals.map(goal => {
-              const progress = (goal.currentAmount / goal.targetAmount) * 100;
-              const remaining = goal.targetAmount - goal.currentAmount;
-              const monthsToGoal = calculateMonthsToGoal(goal);
-
-              return (
-                <Card key={goal.id} className="p-6 border-2 border-gray-100 hover:border-primary/30 transition-colors bg-blue-50">
+            const progress = goal.currentAmount / goal.targetAmount * 100;
+            const remaining = goal.targetAmount - goal.currentAmount;
+            const monthsToGoal = calculateMonthsToGoal(goal);
+            return <Card key={goal.id} className="p-6 border-2 border-gray-100 hover:border-primary/30 transition-colors bg-blue-50">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{categoryIcons[goal.category as keyof typeof categoryIcons] || '🎯'}</span>
@@ -207,12 +180,7 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                           {remaining.toLocaleString('ar-SA')} ريال
                         </p>
                       </div>
-                      <Button
-                        onClick={() => confirmDeleteGoal(goal.id)}
-                        size="sm"
-                        variant="outline"
-                        className="text-red-600 hover:bg-red-50 border-red-200"
-                      >
+                      <Button onClick={() => confirmDeleteGoal(goal.id)} size="sm" variant="outline" className="text-red-600 border-red-200 bg-red-300 hover:bg-red-200">
                         🗑️
                       </Button>
                     </div>
@@ -233,40 +201,24 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                   </div>
 
                   <div className="flex gap-2 mt-4">
-                    <Button 
-                      onClick={() => updateGoalProgress(goal.id, 500)} 
-                      size="sm" 
-                      className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
-                    >
+                    <Button onClick={() => updateGoalProgress(goal.id, 500)} size="sm" className="bg-blue-600 hover:bg-blue-700 text-white flex-1">
                       + 500 ريال
                     </Button>
-                    <Button 
-                      onClick={() => updateGoalProgress(goal.id, 1000)} 
-                      size="sm" 
-                      className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
-                    >
+                    <Button onClick={() => updateGoalProgress(goal.id, 1000)} size="sm" className="bg-blue-600 hover:bg-blue-700 text-white flex-1">
                       + 1000 ريال
                     </Button>
-                    <Button 
-                      onClick={() => updateGoalProgress(goal.id, -500)} 
-                      size="sm" 
-                      className="bg-blue-500 hover:bg-blue-600 text-white flex-1" 
-                      disabled={goal.currentAmount < 500}
-                    >
+                    <Button onClick={() => updateGoalProgress(goal.id, -500)} size="sm" className="bg-blue-500 hover:bg-blue-600 text-white flex-1" disabled={goal.currentAmount < 500}>
                       - 500 ريال
                     </Button>
                   </div>
-                </Card>
-              );
-            })}
+                </Card>;
+          })}
           </div>
 
-          {goals.length === 0 && (
-            <div className="text-center py-12">
+          {goals.length === 0 && <div className="text-center py-12">
               <p className="text-xl text-gray-500 mb-4">لا توجد أهداف مالية حالياً</p>
               <p className="text-gray-400">ابدأ بإضافة هدفك المالي الأول!</p>
-            </div>
-          )}
+            </div>}
         </CardContent>
       </Card>
 
@@ -284,24 +236,15 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
             </DialogDescription>
           </DialogHeader>
           <div className="flex gap-3 mt-6">
-            <Button 
-              onClick={deleteGoal}
-              className="flex-1 bg-red-600 hover:bg-red-700 text-white"
-            >
+            <Button onClick={deleteGoal} className="flex-1 bg-red-600 hover:bg-red-700 text-white">
               نعم، احذف الهدف
             </Button>
-            <Button 
-              onClick={() => setDeleteDialogOpen(false)}
-              variant="outline"
-              className="flex-1"
-            >
+            <Button onClick={() => setDeleteDialogOpen(false)} variant="outline" className="flex-1">
               إلغاء
             </Button>
           </div>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>;
 };
-
 export default FinancialPlanning;
