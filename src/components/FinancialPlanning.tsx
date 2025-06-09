@@ -189,7 +189,7 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                     <Button onClick={() => updateGoalProgress(goal.id, 1000)} size="sm" className="bg-blue-600 hover:bg-blue-700 text-white flex-1">
                       + 1000 ريال
                     </Button>
-                    <Button onClick={() => updateGoalProgress(goal.id, -500)} size="sm" variant="outline" className="flex-1" disabled={goal.currentAmount < 500}>
+                    <Button onClick={() => updateGoalProgress(goal.id, -500)} size="sm" className="bg-blue-500 hover:bg-blue-600 text-white flex-1" disabled={goal.currentAmount < 500}>
                       - 500 ريال
                     </Button>
                   </div>
