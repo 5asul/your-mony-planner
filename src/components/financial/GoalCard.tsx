@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { Trash2 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Goal {
@@ -78,9 +79,12 @@ const GoalCard: React.FC<GoalCardProps> = ({
             onClick={() => onDelete(goal.id)} 
             size="sm" 
             variant="outline" 
-            className="text-red-600 border-red-200 bg-red-300 hover:bg-red-200 h-8 w-8 p-0 flex-shrink-0"
+            className="group relative h-8 w-8 p-0 border-red-200 hover:border-red-400 hover:bg-red-50 transition-all duration-200 flex-shrink-0"
           >
-            🗑️
+            <Trash2 
+              size={14} 
+              className="text-red-500 group-hover:text-red-600 transition-colors" 
+            />
           </Button>
         </div>
       </div>
