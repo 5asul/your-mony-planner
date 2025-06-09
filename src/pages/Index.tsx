@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useIncomeData } from '@/hooks/useIncomeData';
@@ -11,6 +12,7 @@ import FinancialPlanning from '@/components/FinancialPlanning';
 const Index = () => {
   const { user, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState('income');
+  const [showMainApp, setShowMainApp] = useState(false);
   const { incomeData, updateIncomeData, saveManually: saveIncome, loading: incomeLoading, hasChanges: incomeHasChanges } = useIncomeData();
   const { expenseData, updateExpenseData, saveManually: saveExpense, loading: expenseLoading, hasChanges: expenseHasChanges } = useExpenseData();
 
@@ -21,21 +23,32 @@ const Index = () => {
     }
   }, [user, authLoading]);
 
-  // Show loading while checking authentication
-  if (authLoading) {
+  // Add minimum loading time of 3 seconds
+  useEffect(() => {
+    if (!authLoading && user) {
+      const timer = setTimeout(() => {
+        setShowMainApp(true);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [authLoading, user]);
+
+  // Show loading while checking authentication or during minimum loading time
+  if (authLoading || (!showMainApp && user)) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-8">
           <div className="relative mb-8">
-            <div className="w-32 h-32 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-2xl">
+            <div className="w-32 h-32 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-2xl animate-pulse">
               <div className="text-4xl text-white font-bold">💰</div>
             </div>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/30 to-indigo-500/30 animate-pulse"></div>
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/30 to-indigo-500/30 animate-ping"></div>
           </div>
           
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-blue-800 mb-2">مرحباً بك</h1>
-            <p className="text-xl text-blue-600 font-semibold">تطبيق إدارة الميزانية الشخصية</p>
+            <h1 className="text-3xl font-bold text-blue-800 mb-2 animate-fade-in">مرحباً بك</h1>
+            <p className="text-xl text-blue-600 font-semibold animate-fade-in">تطبيق إدارة الميزانية الشخصية</p>
           </div>
           
           <div className="flex justify-center items-center space-x-2 mb-4">
@@ -44,7 +57,7 @@ const Index = () => {
             <div className="w-3 h-3 bg-blue-300 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
           </div>
           
-          <p className="text-lg text-blue-700">جاري التحميل...</p>
+          <p className="text-lg text-blue-700 animate-fade-in">جاري التحميل...</p>
         </div>
       </div>
     );
@@ -97,7 +110,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 animate-fade-in" dir="rtl">
       <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
       <main className="animate-fade-in pb-20">
         {renderActiveTab()}
