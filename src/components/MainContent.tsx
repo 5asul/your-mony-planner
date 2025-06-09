@@ -4,28 +4,7 @@ import IncomeEntry from '@/components/IncomeEntry';
 import ExpenseEntry from '@/components/ExpenseEntry';
 import BalanceAnalysis from '@/components/BalanceAnalysis';
 import FinancialPlanning from '@/components/FinancialPlanning';
-
-interface IncomeData {
-  basicSalary: number;
-  freelance: number;
-  rent: number;
-  investments: number;
-  other: number;
-  total: number;
-}
-
-interface ExpenseData {
-  housing: number;
-  food: number;
-  transport: number;
-  utilities: number;
-  entertainment: number;
-  healthcare: number;
-  shopping: number;
-  education: number;
-  other: number;
-  total: number;
-}
+import { IncomeData, ExpenseData } from '@/types/financial';
 
 interface MainContentProps {
   activeTab: string;

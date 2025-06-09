@@ -5,15 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-
-interface IncomeData {
-  basicSalary: number;
-  freelance: number;
-  rent: number;
-  investments: number;
-  other: number;
-  total: number;
-}
+import { IncomeData } from '@/types/financial';
 
 interface IncomeEntryProps {
   incomeData: IncomeData;

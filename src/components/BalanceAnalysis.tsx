@@ -3,20 +3,11 @@ import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { IncomeData, ExpenseData } from '@/types/financial';
 
 interface BalanceAnalysisProps {
-  income: { total: number; [key: string]: number };
-  expenses: { 
-    total: number;
-    housing: number;
-    utilities: number;
-    food: number;
-    transportation: number;
-    education: number;
-    entertainment: number;
-    health: number;
-    savings: number;
-  };
+  income: IncomeData;
+  expenses: ExpenseData;
 }
 
 const BalanceAnalysis: React.FC<BalanceAnalysisProps> = ({ income, expenses }) => {

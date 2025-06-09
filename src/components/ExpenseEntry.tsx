@@ -5,19 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-
-interface ExpenseData {
-  housing: number;
-  utilities: number;
-  food: number;
-  transportation: number;
-  education: number;
-  entertainment: number;
-  health: number;
-  savings: number;
-  total: number;
-  [key: string]: number;
-}
+import { ExpenseData } from '@/types/financial';
 
 interface ExpenseEntryProps {
   expenseData: ExpenseData;

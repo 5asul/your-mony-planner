@@ -3,16 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-
-interface IncomeData {
-  basicSalary: number;
-  freelance: number;
-  rent: number;
-  investments: number;
-  other: number;
-  total: number;
-  [key: string]: number;
-}
+import { IncomeData } from '@/types/financial';
 
 export const useIncomeData = () => {
   const { user } = useAuth();

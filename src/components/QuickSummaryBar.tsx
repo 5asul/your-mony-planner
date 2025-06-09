@@ -1,14 +1,7 @@
 
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-
-interface IncomeData {
-  total: number;
-}
-
-interface ExpenseData {
-  total: number;
-}
+import { IncomeData, ExpenseData } from '@/types/financial';
 
 interface QuickSummaryBarProps {
   incomeData: IncomeData;

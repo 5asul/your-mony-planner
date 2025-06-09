@@ -3,19 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-
-interface ExpenseData {
-  housing: number;
-  utilities: number;
-  food: number;
-  transportation: number;
-  education: number;
-  entertainment: number;
-  health: number;
-  savings: number;
-  total: number;
-  [key: string]: number;
-}
+import { ExpenseData } from '@/types/financial';
 
 export const useExpenseData = () => {
   const { user } = useAuth();
