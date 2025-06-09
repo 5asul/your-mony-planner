@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut } from 'lucide-react';
+import LanguageToggle from '@/components/LanguageToggle';
 
 interface NavigationProps {
   activeTab: string;
@@ -15,13 +17,14 @@ const Navigation: React.FC<NavigationProps> = ({
   onTabChange
 }) => {
   const { signOut, user } = useAuth();
+  const { t, isRTL } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const tabs = [
-    { id: 'income', label: 'الدخل', icon: '💰' },
-    { id: 'expenses', label: 'المصروفات', icon: '💳' },
-    { id: 'analysis', label: 'التحليل', icon: '📊' },
-    { id: 'planning', label: 'التخطيط', icon: '🎯' }
+    { id: 'income', label: t('income'), icon: '💰' },
+    { id: 'expenses', label: t('expenses'), icon: '💳' },
+    { id: 'analysis', label: t('analysis'), icon: '📊' },
+    { id: 'planning', label: t('planning'), icon: '🎯' }
   ];
 
   const handleTabChange = (tabId: string) => {
@@ -32,15 +35,15 @@ const Navigation: React.FC<NavigationProps> = ({
   };
 
   return (
-    <nav className="bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 sticky top-0 z-50 transition-all duration-300">
+    <nav className="bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 sticky top-0 z-50 transition-all duration-300" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-6xl mx-auto px-4">
         {/* Desktop Navigation */}
         <div className="hidden md:flex justify-between items-center h-16">
           <h1 className="text-xl lg:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent animate-fade-in">
-            حاسبة الميزانية الشخصية
+            {t('appTitle')}
           </h1>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 bg-gray-100/80 rounded-xl p-2 backdrop-blur-sm">
               {tabs.map((tab, index) => (
                 <button
@@ -75,15 +78,19 @@ const Navigation: React.FC<NavigationProps> = ({
               ))}
             </div>
             
-            <Button 
-              onClick={signOut} 
-              variant="outline" 
-              size="sm" 
-              className="text-red-600 border-red-200 bg-red-50/80 hover:bg-red-100 hover:border-red-300 transition-all duration-300 hover:scale-105 backdrop-blur-sm"
-            >
-              <LogOut className="w-4 h-4 ml-2" />
-              خروج
-            </Button>
+            <div className="flex items-center gap-2">
+              <LanguageToggle />
+              
+              <Button 
+                onClick={signOut} 
+                variant="outline" 
+                size="sm" 
+                className="text-red-600 border-red-200 bg-red-50/80 hover:bg-red-100 hover:border-red-300 transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+              >
+                <LogOut className={cn("w-4 h-4", isRTL ? "ml-2" : "mr-2")} />
+                {t('logout')}
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -91,7 +98,7 @@ const Navigation: React.FC<NavigationProps> = ({
         <div className="md:hidden">
           <div className="flex justify-between items-center h-14">
             <h1 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              حاسبة الميزانية
+              {t('appTitleShort')}
             </h1>
             
             <button
@@ -122,7 +129,8 @@ const Navigation: React.FC<NavigationProps> = ({
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
                   className={cn(
-                    "w-full px-4 py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-3 text-right group relative overflow-hidden",
+                    "w-full px-4 py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-3 group relative overflow-hidden",
+                    isRTL ? "text-right" : "text-left",
                     activeTab === tab.id
                       ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg scale-105"
                       : "text-gray-600 hover:bg-gray-50 hover:scale-102 hover:shadow-md"
@@ -142,21 +150,28 @@ const Navigation: React.FC<NavigationProps> = ({
                   
                   {/* Active indicator for mobile */}
                   {activeTab === tab.id && (
-                    <div className="absolute right-3 w-2 h-2 bg-white rounded-full animate-pulse" />
+                    <div className={cn(
+                      "absolute w-2 h-2 bg-white rounded-full animate-pulse",
+                      isRTL ? "right-3" : "left-3"
+                    )} />
                   )}
                 </button>
               ))}
               
               <hr className="my-3 border-gray-200" />
               
-              <Button
-                onClick={signOut}
-                variant="outline"
-                className="w-full text-red-600 border-red-200 hover:bg-red-50 transition-all duration-300 hover:scale-102"
-              >
-                <LogOut className="w-4 h-4 ml-2" />
-                تسجيل الخروج
-              </Button>
+              <div className="flex gap-2">
+                <LanguageToggle />
+                
+                <Button
+                  onClick={signOut}
+                  variant="outline"
+                  className="flex-1 text-red-600 border-red-200 hover:bg-red-50 transition-all duration-300 hover:scale-102"
+                >
+                  <LogOut className={cn("w-4 h-4", isRTL ? "ml-2" : "mr-2")} />
+                  {t('logoutFull')}
+                </Button>
+              </div>
             </div>
           </div>
         </div>

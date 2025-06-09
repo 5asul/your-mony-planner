@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useIncomeData } from '@/hooks/useIncomeData';
 import { useExpenseData } from '@/hooks/useExpenseData';
 import Navigation from '@/components/Navigation';
@@ -11,6 +12,7 @@ import FinancialPlanning from '@/components/FinancialPlanning';
 
 const Index = () => {
   const { user, loading: authLoading } = useAuth();
+  const { t, isRTL } = useLanguage();
   const [activeTab, setActiveTab] = useState('income');
   const [showMainApp, setShowMainApp] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -51,7 +53,7 @@ const Index = () => {
   // Show loading while checking authentication or during minimum loading time
   if (authLoading || (!showMainApp && user)) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-100 flex items-center justify-center" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="text-center max-w-md mx-auto p-8">
           <div className="relative mb-8">
             <div className="w-32 h-32 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-2xl animate-pulse">
@@ -61,8 +63,8 @@ const Index = () => {
           </div>
           
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-blue-800 mb-2 animate-fade-in">مرحباً بك</h1>
-            <p className="text-xl text-blue-600 font-semibold animate-fade-in">تطبيق إدارة الميزانية الشخصية</p>
+            <h1 className="text-3xl font-bold text-blue-800 mb-2 animate-fade-in">{t('welcome')}</h1>
+            <p className="text-xl text-blue-600 font-semibold animate-fade-in">{t('personalBudgetApp')}</p>
           </div>
           
           <div className="flex justify-center items-center space-x-2 mb-4">
@@ -71,7 +73,7 @@ const Index = () => {
             <div className="w-3 h-3 bg-blue-300 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
           </div>
           
-          <p className="text-lg text-blue-700 animate-fade-in">جاري التحميل...</p>
+          <p className="text-lg text-blue-700 animate-fade-in">{t('loading')}</p>
         </div>
       </div>
     );
@@ -136,7 +138,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 animate-fade-in" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 animate-fade-in" dir={isRTL ? 'rtl' : 'ltr'}>
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
       
       {/* Main content with proper spacing to avoid bottom tracker overlap */}
@@ -157,25 +159,25 @@ const Index = () => {
         <div className="max-w-6xl mx-auto p-3 md:p-4">
           <div className="flex justify-between items-center text-xs md:text-sm">
             <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
-              <p className="text-gray-600 mb-1 group-hover:text-blue-600 transition-colors">الدخل</p>
+              <p className="text-gray-600 mb-1 group-hover:text-blue-600 transition-colors">{t('income')}</p>
               <p className="font-bold text-blue-600 arabic-numbers text-sm md:text-base group-hover:scale-110 transition-transform">
-                {incomeData.total.toLocaleString('ar-SA')}
+                {incomeData.total.toLocaleString(isRTL ? 'ar-SA' : 'en-US')}
               </p>
             </div>
             
             <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
-              <p className="text-gray-600 mb-1 group-hover:text-red-600 transition-colors">المصروفات</p>
+              <p className="text-gray-600 mb-1 group-hover:text-red-600 transition-colors">{t('expenses')}</p>
               <p className="font-bold text-red-600 arabic-numbers text-sm md:text-base group-hover:scale-110 transition-transform">
-                {expenseData.total.toLocaleString('ar-SA')}
+                {expenseData.total.toLocaleString(isRTL ? 'ar-SA' : 'en-US')}
               </p>
             </div>
             
             <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
-              <p className="text-gray-600 mb-1 group-hover:text-emerald-600 transition-colors">الرصيد</p>
+              <p className="text-gray-600 mb-1 group-hover:text-emerald-600 transition-colors">{t('balance')}</p>
               <p className={`font-bold arabic-numbers text-sm md:text-base group-hover:scale-110 transition-all duration-300 ${
                 balance >= 0 ? 'text-emerald-600' : 'text-red-600'
               }`}>
-                {balance.toLocaleString('ar-SA')}
+                {balance.toLocaleString(isRTL ? 'ar-SA' : 'en-US')}
               </p>
             </div>
           </div>

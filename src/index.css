@@ -42,7 +42,15 @@
 
   body {
     @apply bg-background text-foreground font-arabic;
+  }
+
+  /* Support both RTL and LTR */
+  [dir="rtl"] {
     direction: rtl;
+  }
+  
+  [dir="ltr"] {
+    direction: ltr;
   }
 
   /* Comprehensive autofill override - MAXIMUM STRENGTH */
@@ -93,7 +101,7 @@
     font-feature-settings: "lnum" 1;
   }
 
-  /* Custom scrollbar for RTL */
+  /* Custom scrollbar for both directions */
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -121,8 +129,17 @@
   }
 
   .input-financial {
-    @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors text-right;
+    @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors;
     background-color: white !important;
+    
+    /* Support both RTL and LTR text alignment */
+    &[dir="rtl"] {
+      text-align: right;
+    }
+    
+    &[dir="ltr"] {
+      text-align: left;
+    }
     
     /* Ultra-comprehensive browser autofill override */
     &:-webkit-autofill,
