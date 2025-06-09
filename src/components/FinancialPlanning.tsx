@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-
 interface Goal {
   id: string;
   title: string;
@@ -14,11 +13,9 @@ interface Goal {
   deadline: string;
   category: string;
 }
-
 interface FinancialPlanningProps {
   balance: number;
 }
-
 const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
   balance
 }) => {
@@ -46,7 +43,6 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
   const [showAddForm, setShowAddForm] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [goalToDelete, setGoalToDelete] = useState<string>('');
-  
   const addGoal = () => {
     if (newGoal.title && newGoal.targetAmount && newGoal.deadline) {
       const goal: Goal = {
@@ -67,31 +63,26 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
       setShowAddForm(false);
     }
   };
-
   const updateGoalProgress = (goalId: string, amount: number) => {
     setGoals(goals.map(goal => goal.id === goalId ? {
       ...goal,
       currentAmount: Math.max(0, goal.currentAmount + amount)
     } : goal));
   };
-
   const confirmDeleteGoal = (goalId: string) => {
     setGoalToDelete(goalId);
     setDeleteDialogOpen(true);
   };
-
   const deleteGoal = () => {
     setGoals(goals.filter(goal => goal.id !== goalToDelete));
     setDeleteDialogOpen(false);
     setGoalToDelete('');
   };
-
   const calculateMonthsToGoal = (goal: Goal) => {
     const remaining = goal.targetAmount - goal.currentAmount;
     if (balance <= 0) return '∞';
     return Math.ceil(remaining / balance);
   };
-
   const categoryIcons = {
     emergency: '🚨',
     savings: '💰',
@@ -100,11 +91,8 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
     education: '📚',
     health: '🏥'
   };
-
   const goalToDeleteData = goals.find(goal => goal.id === goalToDelete);
-
-  return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+  return <div className="max-w-6xl mx-auto p-6 space-y-6">
       <Card className="card-financial bg-slate-50">
         <CardHeader>
           <CardTitle className="text-2xl font-bold flex items-center gap-3">
@@ -128,8 +116,7 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
             </Button>
           </div>
 
-          {showAddForm && (
-            <Card className="mb-8 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 shadow-lg">
+          {showAddForm && <Card className="mb-8 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 shadow-lg">
               <CardContent className="p-6">
                 <div className="mb-6">
                   <h4 className="text-xl font-bold text-blue-800 mb-2 flex items-center gap-2">
@@ -146,15 +133,10 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                       عنوان الهدف
                     </Label>
                     <div className="relative">
-                      <Input 
-                        value={newGoal.title} 
-                        onChange={e => setNewGoal({
-                          ...newGoal,
-                          title: e.target.value
-                        })} 
-                        placeholder="مثال: شراء منزل، سيارة جديدة، رحلة" 
-                        className="h-14 text-lg border-2 border-blue-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 rounded-xl bg-white/80 backdrop-blur-sm transition-all duration-200 hover:border-blue-300"
-                      />
+                      <Input value={newGoal.title} onChange={e => setNewGoal({
+                    ...newGoal,
+                    title: e.target.value
+                  })} placeholder="مثال: شراء منزل، سيارة جديدة، رحلة" className="h-14 text-lg border-2 border-blue-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 rounded-xl bg-white/80 backdrop-blur-sm transition-all duration-200 hover:border-blue-300" />
                     </div>
                   </div>
                   
@@ -164,16 +146,10 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                       المبلغ المطلوب
                     </Label>
                     <div className="relative">
-                      <Input 
-                        type="number" 
-                        value={newGoal.targetAmount} 
-                        onChange={e => setNewGoal({
-                          ...newGoal,
-                          targetAmount: e.target.value
-                        })} 
-                        placeholder="50000" 
-                        className="h-14 text-lg border-2 border-green-200 focus:border-green-500 focus:ring-4 focus:ring-green-100 rounded-xl bg-white/80 backdrop-blur-sm transition-all duration-200 hover:border-green-300 pr-16"
-                      />
+                      <Input type="number" value={newGoal.targetAmount} onChange={e => setNewGoal({
+                    ...newGoal,
+                    targetAmount: e.target.value
+                  })} placeholder="50000" className="h-14 text-lg border-2 border-green-200 focus:border-green-500 focus:ring-4 focus:ring-green-100 rounded-xl bg-white/80 backdrop-blur-sm transition-all duration-200 hover:border-green-300 pr-16" />
                       <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-green-600 font-semibold">
                         ريال
                       </span>
@@ -186,15 +162,10 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                       التاريخ المستهدف
                     </Label>
                     <div className="relative">
-                      <Input 
-                        type="date" 
-                        value={newGoal.deadline} 
-                        onChange={e => setNewGoal({
-                          ...newGoal,
-                          deadline: e.target.value
-                        })} 
-                        className="h-14 text-lg border-2 border-purple-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-100 rounded-xl bg-white/80 backdrop-blur-sm transition-all duration-200 hover:border-purple-300"
-                      />
+                      <Input type="date" value={newGoal.deadline} onChange={e => setNewGoal({
+                    ...newGoal,
+                    deadline: e.target.value
+                  })} className="h-14 text-lg border-2 border-purple-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-100 rounded-xl bg-white/80 backdrop-blur-sm transition-all duration-200 hover:border-purple-300" />
                     </div>
                   </div>
                   
@@ -204,14 +175,10 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                       فئة الهدف
                     </Label>
                     <div className="relative">
-                      <select 
-                        value={newGoal.category} 
-                        onChange={e => setNewGoal({
-                          ...newGoal,
-                          category: e.target.value
-                        })} 
-                        className="w-full h-14 text-lg border-2 border-orange-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 rounded-xl bg-white/80 backdrop-blur-sm transition-all duration-200 hover:border-orange-300 px-4 text-right appearance-none"
-                      >
+                      <select value={newGoal.category} onChange={e => setNewGoal({
+                    ...newGoal,
+                    category: e.target.value
+                  })} className="w-full h-14 text-lg border-2 border-orange-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 rounded-xl bg-white/80 backdrop-blur-sm transition-all duration-200 hover:border-orange-300 px-4 text-right appearance-none">
                         <option value="savings">💰 ادخار عام</option>
                         <option value="emergency">🚨 صندوق طوارئ</option>
                         <option value="purchase">🛍️ شراء</option>
@@ -224,25 +191,16 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                 </div>
                 
                 <div className="mt-8 flex gap-4">
-                  <Button 
-                    onClick={addGoal} 
-                    className="flex-1 h-14 text-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-                    disabled={!newGoal.title || !newGoal.targetAmount || !newGoal.deadline}
-                  >
+                  <Button onClick={addGoal} className="flex-1 h-14 text-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200" disabled={!newGoal.title || !newGoal.targetAmount || !newGoal.deadline}>
                     <span className="mr-2">✅</span>
                     إضافة الهدف
                   </Button>
-                  <Button 
-                    onClick={() => setShowAddForm(false)} 
-                    variant="outline" 
-                    className="h-14 px-8 text-lg border-2 border-gray-300 hover:border-gray-400 rounded-xl font-semibold"
-                  >
+                  <Button onClick={() => setShowAddForm(false)} variant="outline" className="h-14 px-8 text-lg border-2 border-gray-300 hover:border-gray-400 rounded-xl font-semibold bg-red-300 hover:bg-red-200">
                     إلغاء
                   </Button>
                 </div>
               </CardContent>
-            </Card>
-          )}
+            </Card>}
 
           <div className="grid lg:grid-cols-2 gap-6">
             {goals.map(goal => {
@@ -330,8 +288,6 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
           </div>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>;
 };
-
 export default FinancialPlanning;
