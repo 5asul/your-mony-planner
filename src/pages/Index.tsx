@@ -13,6 +13,7 @@ const Index = () => {
   const { user, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState('income');
   const [showMainApp, setShowMainApp] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const { incomeData, updateIncomeData, saveManually: saveIncome, loading: incomeLoading, hasChanges: incomeHasChanges } = useIncomeData();
   const { expenseData, updateExpenseData, saveManually: saveExpense, loading: expenseLoading, hasChanges: expenseHasChanges } = useExpenseData();
 
@@ -33,6 +34,19 @@ const Index = () => {
       return () => clearTimeout(timer);
     }
   }, [authLoading, user]);
+
+  // Handle smooth tab transitions
+  const handleTabChange = (newTab: string) => {
+    if (newTab !== activeTab) {
+      setIsTransitioning(true);
+      
+      // Add a small delay for smooth transition
+      setTimeout(() => {
+        setActiveTab(newTab);
+        setIsTransitioning(false);
+      }, 150);
+    }
+  };
 
   // Show loading while checking authentication or during minimum loading time
   if (authLoading || (!showMainApp && user)) {
@@ -71,73 +85,108 @@ const Index = () => {
   const balance = incomeData.total - expenseData.total;
 
   const renderActiveTab = () => {
-    switch (activeTab) {
-      case 'income':
-        return (
-          <IncomeEntry 
-            incomeData={incomeData} 
-            onIncomeChange={updateIncomeData} 
-            onSave={saveIncome}
-            hasChanges={incomeHasChanges}
-            loading={incomeLoading} 
-          />
-        );
-      case 'expenses':
-        return (
-          <ExpenseEntry 
-            expenseData={expenseData} 
-            onExpenseChange={updateExpenseData} 
-            onSave={saveExpense}
-            hasChanges={expenseHasChanges}
-            loading={expenseLoading} 
-          />
-        );
-      case 'analysis':
-        return <BalanceAnalysis income={incomeData} expenses={expenseData} />;
-      case 'planning':
-        return <FinancialPlanning balance={balance} />;
-      default:
-        return (
-          <IncomeEntry 
-            incomeData={incomeData} 
-            onIncomeChange={updateIncomeData} 
-            onSave={saveIncome}
-            hasChanges={incomeHasChanges}
-            loading={incomeLoading} 
-          />
-        );
-    }
+    const tabContent = (() => {
+      switch (activeTab) {
+        case 'income':
+          return (
+            <IncomeEntry 
+              incomeData={incomeData} 
+              onIncomeChange={updateIncomeData} 
+              onSave={saveIncome}
+              hasChanges={incomeHasChanges}
+              loading={incomeLoading} 
+            />
+          );
+        case 'expenses':
+          return (
+            <ExpenseEntry 
+              expenseData={expenseData} 
+              onExpenseChange={updateExpenseData} 
+              onSave={saveExpense}
+              hasChanges={expenseHasChanges}
+              loading={expenseLoading} 
+            />
+          );
+        case 'analysis':
+          return <BalanceAnalysis income={incomeData} expenses={expenseData} />;
+        case 'planning':
+          return <FinancialPlanning balance={balance} />;
+        default:
+          return (
+            <IncomeEntry 
+              incomeData={incomeData} 
+              onIncomeChange={updateIncomeData} 
+              onSave={saveIncome}
+              hasChanges={incomeHasChanges}
+              loading={incomeLoading} 
+            />
+          );
+      }
+    })();
+
+    return (
+      <div className={`transition-all duration-300 ease-out ${
+        isTransitioning 
+          ? 'opacity-0 translate-y-4 scale-95' 
+          : 'opacity-100 translate-y-0 scale-100'
+      }`}>
+        {tabContent}
+      </div>
+    );
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 animate-fade-in" dir="rtl">
-      <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
-      <main className="animate-fade-in pb-20">
-        {renderActiveTab()}
+      <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
+      
+      <main className="animate-fade-in pb-20 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 right-10 w-32 h-32 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-40 left-10 w-48 h-48 bg-purple-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        </div>
+        
+        <div className="relative z-10">
+          {renderActiveTab()}
+        </div>
       </main>
       
-      {/* Quick Summary Bar - Mobile Responsive */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-t border-gray-200 p-3 md:p-4 shadow-lg">
-        <div className="max-w-6xl mx-auto flex justify-between items-center text-xs md:text-sm">
-          <div className="text-center">
-            <p className="text-gray-600 mb-1">الدخل</p>
-            <p className="font-bold text-blue-600 arabic-numbers text-sm md:text-base">
-              {incomeData.total.toLocaleString('ar-SA')}
-            </p>
+      {/* Enhanced Quick Summary Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200/50 shadow-2xl transition-all duration-300 hover:shadow-3xl">
+        <div className="max-w-6xl mx-auto p-3 md:p-4">
+          <div className="flex justify-between items-center text-xs md:text-sm">
+            <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
+              <p className="text-gray-600 mb-1 group-hover:text-blue-600 transition-colors">الدخل</p>
+              <p className="font-bold text-blue-600 arabic-numbers text-sm md:text-base group-hover:scale-110 transition-transform">
+                {incomeData.total.toLocaleString('ar-SA')}
+              </p>
+            </div>
+            
+            <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
+              <p className="text-gray-600 mb-1 group-hover:text-red-600 transition-colors">المصروفات</p>
+              <p className="font-bold text-red-600 arabic-numbers text-sm md:text-base group-hover:scale-110 transition-transform">
+                {expenseData.total.toLocaleString('ar-SA')}
+              </p>
+            </div>
+            
+            <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
+              <p className="text-gray-600 mb-1 group-hover:text-emerald-600 transition-colors">الرصيد</p>
+              <p className={`font-bold arabic-numbers text-sm md:text-base group-hover:scale-110 transition-all duration-300 ${
+                balance >= 0 ? 'text-emerald-600' : 'text-red-600'
+              }`}>
+                {balance.toLocaleString('ar-SA')}
+              </p>
+            </div>
           </div>
-          <div className="text-center">
-            <p className="text-gray-600 mb-1">المصروفات</p>
-            <p className="font-bold text-red-600 arabic-numbers text-sm md:text-base">
-              {expenseData.total.toLocaleString('ar-SA')}
-            </p>
-          </div>
-          <div className="text-center">
-            <p className="text-gray-600 mb-1">الرصيد</p>
-            <p className={`font-bold arabic-numbers text-sm md:text-base ${
-              balance >= 0 ? 'text-emerald-600' : 'text-red-600'
-            }`}>
-              {balance.toLocaleString('ar-SA')}
-            </p>
+          
+          {/* Progress indicator */}
+          <div className="mt-2 w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full transition-all duration-1000 ease-out"
+              style={{ 
+                width: `${Math.min(100, (incomeData.total / (incomeData.total + expenseData.total)) * 100)}%`
+              }}
+            />
           </div>
         </div>
       </div>
