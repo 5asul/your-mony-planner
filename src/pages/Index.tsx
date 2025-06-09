@@ -62,7 +62,7 @@ const Index = () => {
   const balance = incomeData.total - expenseData.total;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 animate-fade-in" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-white animate-fade-in" dir={isRTL ? 'rtl' : 'ltr'}>
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
       
       <MainContent
