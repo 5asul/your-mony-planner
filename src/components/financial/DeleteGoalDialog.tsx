@@ -41,8 +41,8 @@ const DeleteGoalDialog: React.FC<DeleteGoalDialogProps> = ({
           <DialogDescription className="text-base sm:text-lg text-gray-600 leading-relaxed">
             {t('confirmDeleteMessage')} "{goalToDelete?.title}"?
             <br />
-            <span className="text-sm text-gray-500 mt-3 block bg-orange-50 p-3 rounded-lg border border-orange-200">
-              <span className="text-orange-600 font-medium">⚠️ {t('cannotUndoAction')}</span>
+            <span className="text-sm text-gray-500 mt-3 block bg-blue-50 p-3 rounded-lg border border-blue-200">
+              <span className="text-blue-700 font-medium">⚠️ {t('cannotUndoAction')}</span>
             </span>
           </DialogDescription>
         </DialogHeader>
