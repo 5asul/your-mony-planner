@@ -44,13 +44,13 @@ const Navigation: React.FC<NavigationProps> = ({
           </h1>
           
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-gray-100/80 rounded-xl p-2 backdrop-blur-sm">
+            <div className="flex items-center gap-1 bg-gray-100/80 rounded-xl p-2 backdrop-blur-sm">
               {tabs.map((tab, index) => (
                 <button
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
                   className={cn(
-                    "relative px-4 lg:px-6 py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 text-sm lg:text-base overflow-hidden group mx-1",
+                    "relative px-4 lg:px-6 py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 text-sm lg:text-base overflow-hidden group",
                     activeTab === tab.id
                       ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform scale-105"
                       : "text-gray-600 hover:bg-white/80 hover:text-gray-800 hover:shadow-md hover:scale-102"
@@ -78,7 +78,7 @@ const Navigation: React.FC<NavigationProps> = ({
               ))}
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <LanguageToggle />
               
               <Button 
@@ -160,13 +160,13 @@ const Navigation: React.FC<NavigationProps> = ({
               
               <hr className="my-3 border-gray-200" />
               
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <LanguageToggle />
                 
                 <Button
                   onClick={signOut}
                   variant="outline"
-                  className="flex-1 text-red-600 border-red-200 hover:bg-red-50 transition-all duration-300 hover:scale-102"
+                  className="flex-1 text-red-600 border-red-200 bg-red-50/80 hover:bg-red-100 hover:border-red-300 transition-all duration-300 hover:scale-102"
                 >
                   <LogOut className={cn("w-4 h-4", isRTL ? "ml-2" : "mr-2")} />
                   {t('logoutFull')}

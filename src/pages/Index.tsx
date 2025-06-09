@@ -141,40 +141,43 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 animate-fade-in" dir={isRTL ? 'rtl' : 'ltr'}>
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
       
-      {/* Main content with proper spacing to avoid bottom tracker overlap */}
-      <main className="animate-fade-in pb-32 pt-4 relative overflow-hidden">
+      {/* Main content with improved mobile spacing and content width constraints */}
+      <main className="animate-fade-in pb-24 pt-6 relative overflow-hidden">
         {/* Background decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 right-10 w-32 h-32 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-40 left-10 w-48 h-48 bg-purple-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         </div>
         
-        <div className="relative z-10">
-          {renderActiveTab()}
+        {/* Content container with mobile-optimized padding and max-width */}
+        <div className="relative z-10 px-2 sm:px-4 md:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            {renderActiveTab()}
+          </div>
         </div>
       </main>
       
-      {/* Enhanced Quick Summary Bar */}
+      {/* Enhanced Quick Summary Bar with better mobile design */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200/50 shadow-2xl transition-all duration-300 hover:shadow-3xl z-50">
-        <div className="max-w-6xl mx-auto p-3 md:p-4">
-          <div className="flex justify-between items-center text-xs md:text-sm">
-            <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
-              <p className="text-gray-600 mb-1 group-hover:text-blue-600 transition-colors">{t('income')}</p>
-              <p className="font-bold text-blue-600 arabic-numbers text-sm md:text-base group-hover:scale-110 transition-transform">
+        <div className="max-w-6xl mx-auto p-2 sm:p-3 md:p-4">
+          <div className="flex justify-between items-center text-xs sm:text-sm">
+            <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105 min-w-0 flex-1">
+              <p className="text-gray-600 mb-1 group-hover:text-blue-600 transition-colors truncate">{t('income')}</p>
+              <p className="font-bold text-blue-600 arabic-numbers text-sm md:text-base group-hover:scale-110 transition-transform truncate">
                 {incomeData.total.toLocaleString(isRTL ? 'ar-SA' : 'en-US')}
               </p>
             </div>
             
-            <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
-              <p className="text-gray-600 mb-1 group-hover:text-red-600 transition-colors">{t('expenses')}</p>
-              <p className="font-bold text-red-600 arabic-numbers text-sm md:text-base group-hover:scale-110 transition-transform">
+            <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105 min-w-0 flex-1 mx-2">
+              <p className="text-gray-600 mb-1 group-hover:text-red-600 transition-colors truncate">{t('expenses')}</p>
+              <p className="font-bold text-red-600 arabic-numbers text-sm md:text-base group-hover:scale-110 transition-transform truncate">
                 {expenseData.total.toLocaleString(isRTL ? 'ar-SA' : 'en-US')}
               </p>
             </div>
             
-            <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">
-              <p className="text-gray-600 mb-1 group-hover:text-emerald-600 transition-colors">{t('balance')}</p>
-              <p className={`font-bold arabic-numbers text-sm md:text-base group-hover:scale-110 transition-all duration-300 ${
+            <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105 min-w-0 flex-1">
+              <p className="text-gray-600 mb-1 group-hover:text-emerald-600 transition-colors truncate">{t('balance')}</p>
+              <p className={`font-bold arabic-numbers text-sm md:text-base group-hover:scale-110 transition-all duration-300 truncate ${
                 balance >= 0 ? 'text-emerald-600' : 'text-red-600'
               }`}>
                 {balance.toLocaleString(isRTL ? 'ar-SA' : 'en-US')}
