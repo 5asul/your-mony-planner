@@ -139,7 +139,8 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 animate-fade-in" dir="rtl">
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
       
-      <main className="animate-fade-in pb-20 relative overflow-hidden">
+      {/* Main content with proper spacing to avoid bottom tracker overlap */}
+      <main className="animate-fade-in pb-32 pt-4 relative overflow-hidden">
         {/* Background decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 right-10 w-32 h-32 bg-blue-200/20 rounded-full blur-3xl animate-pulse"></div>
@@ -152,7 +153,7 @@ const Index = () => {
       </main>
       
       {/* Enhanced Quick Summary Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200/50 shadow-2xl transition-all duration-300 hover:shadow-3xl">
+      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200/50 shadow-2xl transition-all duration-300 hover:shadow-3xl z-50">
         <div className="max-w-6xl mx-auto p-3 md:p-4">
           <div className="flex justify-between items-center text-xs md:text-sm">
             <div className="text-center group cursor-pointer transition-all duration-300 hover:scale-105">

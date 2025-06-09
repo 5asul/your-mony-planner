@@ -40,14 +40,14 @@ const Navigation: React.FC<NavigationProps> = ({
             حاسبة الميزانية الشخصية
           </h1>
           
-          <div className="flex items-center gap-4">
-            <div className="flex space-x-reverse space-x-1 bg-gray-100/80 rounded-xl p-1 backdrop-blur-sm">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 bg-gray-100/80 rounded-xl p-2 backdrop-blur-sm">
               {tabs.map((tab, index) => (
                 <button
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
                   className={cn(
-                    "relative px-4 lg:px-6 py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 text-sm lg:text-base overflow-hidden group",
+                    "relative px-4 lg:px-6 py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center gap-2 text-sm lg:text-base overflow-hidden group mx-1",
                     activeTab === tab.id
                       ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform scale-105"
                       : "text-gray-600 hover:bg-white/80 hover:text-gray-800 hover:shadow-md hover:scale-102"
@@ -116,7 +116,7 @@ const Navigation: React.FC<NavigationProps> = ({
               ? "opacity-100 translate-y-0 max-h-96" 
               : "opacity-0 -translate-y-4 max-h-0 pointer-events-none"
           )}>
-            <div className="p-4 space-y-2">
+            <div className="p-4 space-y-3">
               {tabs.map((tab, index) => (
                 <button
                   key={tab.id}

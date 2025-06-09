@@ -45,6 +45,49 @@
     direction: rtl;
   }
 
+  /* Comprehensive autofill override - MAXIMUM STRENGTH */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active,
+  input:-webkit-autofill:valid,
+  input:-webkit-autofill:invalid {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: #111827 !important;
+    background-color: white !important;
+    background-image: none !important;
+    color: #111827 !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+    font-family: inherit !important;
+  }
+
+  /* Firefox autofill override */
+  input:-moz-autofill,
+  input:-moz-autofill-preview {
+    background-color: white !important;
+    color: #111827 !important;
+    filter: none !important;
+  }
+
+  /* Additional browser-specific overrides */
+  input[autocomplete] {
+    background-color: white !important;
+    background-image: none !important;
+  }
+
+  /* Target all input types */
+  input[type="text"]:-webkit-autofill,
+  input[type="email"]:-webkit-autofill,
+  input[type="password"]:-webkit-autofill,
+  input[type="number"]:-webkit-autofill,
+  input[type="tel"]:-webkit-autofill,
+  input[type="search"]:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: #111827 !important;
+    background-color: white !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+  }
+
   /* Arabic number styling */
   .arabic-numbers {
     font-feature-settings: "lnum" 1;
@@ -81,21 +124,33 @@
     @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors text-right;
     background-color: white !important;
     
-    /* Comprehensive browser autofill override */
+    /* Ultra-comprehensive browser autofill override */
     &:-webkit-autofill,
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
-    &:-webkit-autofill:active {
+    &:-webkit-autofill:active,
+    &:-webkit-autofill:valid,
+    &:-webkit-autofill:invalid {
       -webkit-box-shadow: 0 0 0 1000px white inset !important;
       -webkit-text-fill-color: #111827 !important;
       background-color: white !important;
       background-image: none !important;
       color: #111827 !important;
       transition: background-color 5000s ease-in-out 0s !important;
+      filter: none !important;
+      box-shadow: 0 0 0 1000px white inset !important;
     }
     
     /* Firefox autofill override */
-    &:-moz-autofill {
+    &:-moz-autofill,
+    &:-moz-autofill-preview {
+      background-color: white !important;
+      color: #111827 !important;
+      filter: none !important;
+    }
+
+    /* Edge/IE autofill override */
+    &:-ms-input-placeholder {
       background-color: white !important;
       color: #111827 !important;
     }
