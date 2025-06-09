@@ -267,7 +267,7 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md bg-white">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-red-600">تأكيد حذف الهدف</DialogTitle>
             <DialogDescription className="text-lg">
