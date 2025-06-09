@@ -141,7 +141,7 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                   </select>
                 </div>
               </div>
-              <Button onClick={addGoal} className="mt-4 btn-financial bg-success text-white">
+              <Button onClick={addGoal} className="mt-4 btn-financial bg-blue-600 text-white hover:bg-blue-700">
                 إضافة الهدف
               </Button>
             </Card>}
@@ -151,7 +151,7 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
             const progress = goal.currentAmount / goal.targetAmount * 100;
             const remaining = goal.targetAmount - goal.currentAmount;
             const monthsToGoal = calculateMonthsToGoal(goal);
-            return <Card key={goal.id} className="p-6 border-2 border-gray-100 hover:border-primary/30 transition-colors bg-sky-100">
+            return <Card key={goal.id} className="p-6 border-2 border-gray-100 hover:border-primary/30 transition-colors bg-blue-50">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{categoryIcons[goal.category as keyof typeof categoryIcons] || '🎯'}</span>
@@ -183,10 +183,10 @@ const FinancialPlanning: React.FC<FinancialPlanningProps> = ({
                   </div>
 
                   <div className="flex gap-2 mt-4">
-                    <Button onClick={() => updateGoalProgress(goal.id, 500)} size="sm" className="bg-success text-white flex-1">
+                    <Button onClick={() => updateGoalProgress(goal.id, 500)} size="sm" className="bg-blue-600 hover:bg-blue-700 text-white flex-1">
                       + 500 ريال
                     </Button>
-                    <Button onClick={() => updateGoalProgress(goal.id, 1000)} size="sm" className="bg-success text-white flex-1">
+                    <Button onClick={() => updateGoalProgress(goal.id, 1000)} size="sm" className="bg-blue-600 hover:bg-blue-700 text-white flex-1">
                       + 1000 ريال
                     </Button>
                     <Button onClick={() => updateGoalProgress(goal.id, -500)} size="sm" variant="outline" className="flex-1" disabled={goal.currentAmount < 500}>
