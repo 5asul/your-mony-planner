@@ -79,16 +79,25 @@
 
   .input-financial {
     @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors text-right;
+    background-color: white !important;
     
-    /* Override browser autofill styles */
+    /* Comprehensive browser autofill override */
     &:-webkit-autofill,
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 30px white inset !important;
+      -webkit-box-shadow: 0 0 0 1000px white inset !important;
       -webkit-text-fill-color: #111827 !important;
       background-color: white !important;
-      transition: background-color 5000s ease-in-out 0s;
+      background-image: none !important;
+      color: #111827 !important;
+      transition: background-color 5000s ease-in-out 0s !important;
+    }
+    
+    /* Firefox autofill override */
+    &:-moz-autofill {
+      background-color: white !important;
+      color: #111827 !important;
     }
   }
 
