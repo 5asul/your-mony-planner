@@ -56,7 +56,7 @@ const DeleteGoalDialog: React.FC<DeleteGoalDialogProps> = ({
           <Button 
             onClick={() => onOpenChange(false)} 
             variant="outline" 
-            className="flex-1 text-sm sm:text-base py-3 rounded-xl font-semibold border-2 hover:bg-gray-50 transition-all duration-200"
+            className="flex-1 text-sm sm:text-base py-3 rounded-xl font-semibold border-2 border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 hover:border-blue-300 transition-all duration-200"
           >
             {t('cancel')}
           </Button>
