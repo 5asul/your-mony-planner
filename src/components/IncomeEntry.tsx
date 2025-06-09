@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -79,13 +78,18 @@ const IncomeEntry: React.FC<IncomeEntryProps> = ({
               <span className="text-lg sm:text-xl md:text-2xl">💰</span>
               <span className="leading-tight">{t('incomeEntry')}</span>
             </CardTitle>
-            {hasChanges && onSave && (
+            {onSave && (
               <Button 
                 onClick={onSave} 
-                className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto text-sm sm:text-base"
+                disabled={!hasChanges}
+                className={`w-full sm:w-auto text-sm sm:text-base transition-all duration-200 ${
+                  hasChanges 
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                }`}
                 size="sm"
               >
-                {t('saveChanges')}
+                {hasChanges ? t('saveChanges') : t('saved')}
               </Button>
             )}
           </div>
