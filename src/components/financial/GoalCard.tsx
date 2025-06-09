@@ -79,11 +79,11 @@ const GoalCard: React.FC<GoalCardProps> = ({
             onClick={() => onDelete(goal.id)} 
             size="sm" 
             variant="outline" 
-            className="group relative h-8 w-8 p-0 border-red-200 hover:border-red-400 hover:bg-red-50 transition-all duration-200 flex-shrink-0"
+            className="group relative h-8 w-8 p-0 bg-red-50 border-red-200 hover:border-red-400 hover:bg-red-100 transition-all duration-200 flex-shrink-0"
           >
             <Trash2 
               size={14} 
-              className="text-red-500 group-hover:text-red-600 transition-colors" 
+              className="text-red-500 group-hover:text-red-700 transition-colors" 
             />
           </Button>
         </div>

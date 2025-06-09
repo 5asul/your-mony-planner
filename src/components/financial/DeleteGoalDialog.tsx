@@ -30,30 +30,33 @@ const DeleteGoalDialog: React.FC<DeleteGoalDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm sm:max-w-md bg-white mx-4">
-        <DialogHeader>
-          <DialogTitle className="text-lg sm:text-xl font-bold text-red-600">
+      <DialogContent className="max-w-sm sm:max-w-md bg-white mx-4 shadow-xl border-0 rounded-2xl">
+        <DialogHeader className="text-center pb-2">
+          <div className="mx-auto mb-4 w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+            <span className="text-2xl">🗑️</span>
+          </div>
+          <DialogTitle className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
             {t('confirmDeleteGoal')}
           </DialogTitle>
-          <DialogDescription className="text-sm sm:text-lg">
+          <DialogDescription className="text-base sm:text-lg text-gray-600 leading-relaxed">
             {t('confirmDeleteMessage')} "{goalToDelete?.title}"?
             <br />
-            <span className="text-xs sm:text-sm text-gray-500 mt-2 block">
-              {t('cannotUndoAction')}
+            <span className="text-sm text-gray-500 mt-3 block bg-orange-50 p-3 rounded-lg border border-orange-200">
+              <span className="text-orange-600 font-medium">⚠️ {t('cannotUndoAction')}</span>
             </span>
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col sm:flex-row gap-3 mt-4 sm:mt-6">
+        <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-gray-100">
           <Button 
             onClick={onConfirmDelete} 
-            className="flex-1 bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base"
+            className="flex-1 bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base py-3 rounded-xl font-semibold transition-all duration-200 hover:scale-105"
           >
             {t('yesDeleteGoal')}
           </Button>
           <Button 
             onClick={() => onOpenChange(false)} 
             variant="outline" 
-            className="flex-1 text-sm sm:text-base"
+            className="flex-1 text-sm sm:text-base py-3 rounded-xl font-semibold border-2 hover:bg-gray-50 transition-all duration-200"
           >
             {t('cancel')}
           </Button>
